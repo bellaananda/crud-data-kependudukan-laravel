@@ -33,11 +33,9 @@
                             <th>Golongan Darah</th>
                             <th>Status</th>
                             <th>Pekerjaan</th>
-                            <th>WNI/WNA</th>
                             <th>Tempat Lahir</th>
                             <th>Tanggal Lahir</th>
-                            <th>Alamat</th>
-                            <th colspan="2" class="text-center">Aksi</th>
+                            <th colspan="3" class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,22 +86,13 @@
                                         @break
                                 @endswitch
                                 <td>{{ $warga->profession }}</td>
-                                @switch($warga->citizenship)
-                                    @case(0)
-                                        <td>WNI</td>
-                                        @break
-                                    @case(1)
-                                        <td>WNA</td>
-                                        @break
-                                    @default
-                                        <td>WNI</td>
-                                        @break
-                                @endswitch
                                 <td>{{ $warga->birthplace }}</td>
                                 <td>{{ date('j F Y', strtotime($warga->birthdate)) }}</td>
-                                <td>{{ $warga->address }}</td>
                                 <td>
-                                    <a href="/penduduk/{{$warga->id}}/edit" class="btn btn-link"><i class="fa fa-edit text-light"></i></a>
+                                    <a href="/penduduk/{{$warga->id}}" class="btn btn-link"><i class="fa fa-list text-light"></i></a>
+                                </td>
+                                <td>
+                                    <a href="/penduduk/{{$warga->id}}/edit" class="btn btn-link"><i class="fa fa-edit text-teal"></i></a>
                                 </td>
                                 <td>
                                     <form class="d-inline-block" method="POST" action="/penduduk/{{$warga->id}}">

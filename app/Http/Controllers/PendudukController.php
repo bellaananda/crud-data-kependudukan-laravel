@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StorePendudukRequest;
 use App\Http\Requests\UpdatePendudukRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PendudukController extends Controller
 {
@@ -50,8 +51,29 @@ class PendudukController extends Controller
             'birthplace' => 'required',
             'birthdate' => 'required',
             'bloodtype' => 'required',
-            'address' => 'required'
+            'address' => 'required',
+            'upload_image' => 'required',
         ]);
+
+        $nik = $request->old('nik');
+        $name = $request->old('name');
+        $gender = $request->old('gender');
+        $marital_status = $request->old('marital_status');
+        $profession = $request->old('profession');
+        $citizenship = $request->old('citizenship');
+        $birthplace = $request->old('birthplace');
+        $birthdate = $request->old('birthdate');
+        $bloodtype = $request->old('bloodtype');
+        $address = $request->old('address');
+        $upload_image = $request->old('upload_image');
+        
+        
+        $image = $request->file('upload_image');
+        // $image_name = $image->getClientOriginalName();
+        $folder = 'uploads';
+        $extension = $image->getClientOriginalExtension();
+        $image_newname = Str::uuid().".".$extension;
+        $image->move($folder, $image_newname);
 
         $penduduk = new Penduduk();
         $penduduk->nik = $request->nik;
@@ -64,6 +86,7 @@ class PendudukController extends Controller
         $penduduk->birthdate = $request->birthdate;
         $penduduk->bloodtype = $request->bloodtype;
         $penduduk->address = $request->address;
+        $penduduk->image = $image_newname;
         $penduduk->save();
 
         return redirect('/penduduk')->with('success_message', 'Data penduduk berhasil ditambahkan!');
@@ -77,7 +100,8 @@ class PendudukController extends Controller
      */
     public function show(Penduduk $penduduk)
     {
-        //
+        $data = ['warga' => $penduduk];
+        return view('penduduk.detail', $data);
     }
 
     /**
@@ -114,6 +138,27 @@ class PendudukController extends Controller
             'address' => 'required'
         ]);
 
+        $nik = $request->old('nik');
+        $name = $request->old('name');
+        $gender = $request->old('gender');
+        $marital_status = $request->old('marital_status');
+        $profession = $request->old('profession');
+        $citizenship = $request->old('citizenship');
+        $birthplace = $request->old('birthplace');
+        $birthdate = $request->old('birthdate');
+        $bloodtype = $request->old('bloodtype');
+        $address = $request->old('address');
+        $upload_image = $request->old('upload_image');
+        
+        
+        $image = $request->file('upload_image');
+        if ($image != null) {
+            $folder = 'uploads';
+            $extension = $image->getClientOriginalExtension();
+            $image_newname = Str::uuid().".".$extension;
+            $image->move($folder, $image_newname);
+        }
+
         $penduduk->nik = $request->nik;
         $penduduk->name = ucwords($request->name);
         $penduduk->gender = $request->gender;
@@ -124,6 +169,9 @@ class PendudukController extends Controller
         $penduduk->birthdate = $request->birthdate;
         $penduduk->bloodtype = $request->bloodtype;
         $penduduk->address = $request->address;
+        if ($image != null) {
+            $penduduk->image = $image_newname;
+        }
         $penduduk->save();
 
         return redirect('/penduduk')->with('success_message', 'Data penduduk berhasil diedit!');

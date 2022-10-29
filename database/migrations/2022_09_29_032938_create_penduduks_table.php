@@ -25,6 +25,7 @@ class CreatePenduduksTable extends Migration
             $table->date('birthdate');
             $table->integer('bloodtype');
             $table->text('address');
+            $table->text('image');
             $table->timestamps();
         });
     }

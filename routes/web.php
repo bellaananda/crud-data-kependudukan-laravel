@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PendudukController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,4 @@ use App\Http\Controllers\PendudukController;
 
 Route::get('/', 'App\Http\Controllers\PendudukController@index');
 Route::resource('penduduk', PendudukController::class);
+Route::get('/registeruser', [LoginController::class, 'index']);

@@ -24,25 +24,37 @@
                     <h3 class="card-title">Form Tambah Data</h3>
                 </div>
                 <div class="card-body">
-                    <form action="/penduduk" method="post" id="inputForm">
+                    <form action="/penduduk" method="post" id="inputForm" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nik">NIK</label>
-                                    <input type="text" id="nik" name="nik" class="form-control" placeholder="NIK" required>
+                                    <input type="text" id="nik" name="nik" class="form-control" placeholder="NIK" value="{{old('nik')}}" required>
+                                    @error('nik')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Nama</label>
-                                    <input type="text" id="name" name="name" class="form-control" placeholder="Nama" required>
+                                    <input type="text" id="name" name="name" class="form-control" placeholder="Nama" value="{{old('name')}}" required>
+                                    @error('name')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="birthplace">Tempat Lahir</label>
-                                    <input type="text" id="birthplace" name="birthplace" class="form-control" placeholder="Tempat Lahir" required>
+                                    <input type="text" id="birthplace" name="birthplace" class="form-control" placeholder="Tempat Lahir" value="{{old('birthplace')}}" required>
+                                    @error('birthplace')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="birthdate">Tanggal Lahir</label>
                                     <input type="date" id="birthdate" name="birthdate" class="form-control bg-light" placeholder="Tanggal Lahir" required>
+                                    @error('birthdate')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="gender">Jenis Kelamin</label>
@@ -51,6 +63,9 @@
                                         <option value="0">Laki-laki</option>
                                         <option value="1">Perempuan</option>
                                     </select>
+                                    @error('gender')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="bloodtype">Golongan Darah</label>
@@ -61,6 +76,9 @@
                                         <option value="2">AB</option>
                                         <option value="3">O</option>
                                     </select>
+                                    @error('bloodtype')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -72,6 +90,9 @@
                                         <option value="1">Belum Kawin</option>
                                         <option value="2">Cerai</option>
                                     </select>
+                                    @error('marital_status')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="citizenship">Kewarganegaraan</label>
@@ -80,17 +101,34 @@
                                         <option value="0">WNI</option>
                                         <option value="1">WNA</option>
                                     </select>
+                                    @error('citizenship')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="profession">Pekerjaan</label>
                                     <input type="text" id="profession" name="profession" class="form-control" placeholder="Pekerjaan" required>
+                                    @error('profession')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Alamat</label>
                                     <textarea id="address" name="address" class="form-control" rows="4" placeholder="Alamat" required></textarea>
+                                    @error('address')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="upload_image">Foto</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="upload_image" name="upload_image" required>
+                                            <label class="custom-file-label" for="upload_image">Pilih foto</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="col-12">
@@ -161,6 +199,9 @@
                     address: {
                         required: true,
                         minlength: 5
+                    },
+                    upload_image: {
+                        required: true
                     }
                 },
                 messages: {
@@ -199,6 +240,9 @@
                     address: {
                         required: "Alamat wajib diisi",
                         minlength: "Panjang alamat minimal 5 huruf"
+                    },
+                    upload_image: {
+                        required: "File wajib dipilih"
                     }
                 },
                 errorElement: 'span',
